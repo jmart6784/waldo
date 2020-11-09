@@ -13,3 +13,37 @@
  *= require_tree .
  *= require_self
  */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: rgb(54, 54, 54);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+li {
+  color: white;
+}
+
+.img-container {
+  display: flex;
+  align-content: center;
+}
+
+.puzzle-img {
+  display: block;
+  justify-self: flex-end;
+}
+
+.game-sidebar {
+  width: 20%;
+}
