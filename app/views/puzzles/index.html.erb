@@ -1,0 +1,7 @@
+<h1>PUZZLES INDEX</h1>
+
+<ul>
+  <% @puzzles.each do |puzzle| %>
+    <li><%= link_to puzzle.title, puzzle %></li>
+  <% end %>
+</ul>
