@@ -16,7 +16,5 @@ class PuzzlesController < ApplicationController
 
       @characters << char
     end
-
-    puts @characters.inspect
   end
 end

@@ -2,6 +2,10 @@
 
 <ul>
   <% @puzzles.each do |puzzle| %>
-    <li><%= link_to puzzle.title, puzzle %></li>
+    <li>
+      <a href=<%= "puzzles/#{puzzle.id}" %> data-turbolinks="false">
+        <%= puzzle.title %>
+      </a> 
+    </li>
   <% end %>
 </ul>

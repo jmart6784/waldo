@@ -1,11 +1,19 @@
-<h1>PUZZLES SHOW</h1>
+<%= javascript_pack_tag "puzzle_show" %>
+
+<div id="start-game-div">
+  <div id="start-div">
+    <h1 id="puzzle-show-start-title">Find all the characters as fast as you can!</h1>
+    <button id="puzzle-start-btn">Start</button>
+  </div>
+</div>
 
 <h2 id="puzzle-show-title" name=<%= @puzzle.id %>><%= @puzzle.title %></h2>
 
-<%= link_to "HOME", root_path %>
+<a href="/" data-turbolinks="false">HOME</a>
 <br />
 <div class="img-container">
   <div class="game-sidebar">
+    <h2 id="puzzle-show-timer">0:00</h2>
     <h3>Find these characters</h3>
 
     <ul>
