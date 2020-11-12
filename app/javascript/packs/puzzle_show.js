@@ -1,15 +1,51 @@
 document.addEventListener("turbolinks:load", () => {
   let title = document.getElementById("puzzle-show-title");
   let puzzleTitle = title.textContent;
+
   let img1 = document.getElementById("puzzle-img");
   let waldoP1 = document.getElementById("waldo-puzzle");
   let wizardP1 = document.getElementById("wizard-puzzle");
   let odlawP1 = document.getElementById("odlaw-puzzle");
   let wendaP1 = document.getElementById("wenda-puzzle");
+
   let startBtn = document.getElementById("puzzle-start-btn");
   let startDiv = document.getElementById("start-game-div");
 
+  let timeSpan = document.getElementById("time-span");
+
+  let seconds = 0;
+  let minutes = 0;
+  let hours = 0;
+
+  const incrementCount = () => {
+    if (seconds === 59) {
+      // Turn 60 minutes to 1 hour
+      if (minutes === 59) {
+        hours += 1;
+        minutes = 0;
+        seconds = 0;
+      } else {
+        // Turn 60 seconds to minutes
+        minutes += 1;
+        seconds = 0;
+      }
+    } else {
+      seconds += 1;
+    }
+
+    // Time between 0 and 9 has a leading zero
+    let secs = seconds < 10 ? "0" + seconds.toString() : seconds;
+    let mins = minutes < 10 ? "0" + minutes.toString() : minutes;
+    let hrs = hours < 10 ? "0" + hours.toString() : hours;
+
+    timeSpan.textContent =
+      hrs > 0 ? `${hrs}:${mins}:${secs}` : `${mins}:${secs}`;
+  };
+
+  let timer;
+
   startBtn.addEventListener("click", () => {
+    timer = setInterval(incrementCount, 1000);
     startDiv.style.display = "none";
   });
 
@@ -87,6 +123,22 @@ document.addEventListener("turbolinks:load", () => {
       detectHit(puzzleCoords.puzzle3, x, y);
     } else {
       console.log("ERROR");
+    }
+
+    // End game and timer when all character are found
+    if (
+      waldoP1.style.backgroundColor === "green" &&
+      wizardP1.style.backgroundColor === "green" &&
+      wendaP1.style.backgroundColor === "green" &&
+      odlawP1.style.backgroundColor === "green"
+    ) {
+      clearInterval(timer);
+      let secs = seconds < 10 ? "0" + seconds.toString() : seconds;
+      let mins = minutes < 10 ? "0" + minutes.toString() : minutes;
+      let hrs = hours < 10 ? "0" + hours.toString() : hours;
+
+      let score = `${hrs}:${mins}:${secs}`;
+      console.log(`GAME OVER SCORE: ${score}`);
     }
 
     return [x, y];

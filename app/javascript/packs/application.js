@@ -14,9 +14,3 @@ require("channels");
 //
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
-
-console.log("APP.js");
-
-document.addEventListener("turbolinks:load", () => {
-  console.log("turbo links loaded (APP.jS)");
-});
