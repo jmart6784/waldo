@@ -4,7 +4,9 @@ class PuzzlesController < ApplicationController
   end
 
   def show
+    @score = Score.new
     @puzzle = Puzzle.find(params[:id])
+    @scores = @puzzle.scores.order("score::integer ASC")
 
     ary = @puzzle.characters.split(" ")
     @characters = []

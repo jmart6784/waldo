@@ -25,7 +25,9 @@ document.addEventListener("turbolinks:load", () => {
   const gameOver = (outcome) => {
     if (outcome === "win") {
       clearInterval(timer);
-      console.log(`GAME OVER`, timeSpan.textContent);
+      document.getElementById("score-form-outer").style.display = "block";
+      document.getElementById("score-form-field").value = totalSeconds;
+      console.log(`GAME OVER`, timeSpan.textContent, totalSeconds);
     } else {
       clearInterval(timer);
       document.getElementById("go-container").style.display = "block";

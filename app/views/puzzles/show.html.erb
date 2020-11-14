@@ -14,7 +14,22 @@
   </div>
 </div>
 
-<h2 id="puzzle-show-title" name=<%= @puzzle.id %>><%= @puzzle.title %></h2>
+<div id="score-form-outer">
+  <div id="score-form-container">
+    <div id="score-form-div">
+      <h1>Enter your name:</h1>
+      <%= form_with model: @score, local: true do |f| %>
+        <%= f.text_field :name %>
+        <%= f.hidden_field :score, value: 1800, id: "score-form-field" %>
+        <%= f.hidden_field :puzzle_id, value: @puzzle.id %>
+
+        <%= f.submit "Submit" %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<h2 id="puzzle-show-title"><%= @puzzle.title %></h2>
 
 <a href="/" data-turbolinks="false">HOME</a>
 <br />
@@ -29,6 +44,20 @@
         <li id=<%= "#{char === "Wizard Whitebeard" ? "wizard" : char.downcase}-puzzle" %>><%= char %></li>
       <% end %>
     </ul>
+
+    <br />
+
+    <div id="scores-container">
+      <h3>Scores:</h3>
+      <div id="scores-list">
+        <ul>
+          <% @scores.each do |score| %>
+            <% score_time = Time.at(score.score).utc.strftime("%M:%S") %>
+            <li class="score-item"><%= "#{score.name}:  #{score_time}" %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
   </div>
 
   <%= image_tag ("/assets/#{@puzzle.image}"), id: "puzzle-img", class: "puzzle-img", width: @puzzle.width, height: @puzzle.height %>
