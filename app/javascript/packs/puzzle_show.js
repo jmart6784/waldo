@@ -1,4 +1,7 @@
 document.addEventListener("turbolinks:load", () => {
+  document
+    .getElementById("play-again")
+    .addEventListener("click", () => location.reload());
   let title = document.getElementById("puzzle-show-title");
   let puzzleTitle = title.textContent;
 
@@ -13,33 +16,37 @@ document.addEventListener("turbolinks:load", () => {
 
   let timeSpan = document.getElementById("time-span");
 
-  let seconds = 0;
-  let minutes = 0;
-  let hours = 0;
+  let totalSeconds = 0;
+
+  document.getElementById("test").addEventListener("click", () => {
+    totalSeconds = 1795;
+  });
+
+  const gameOver = (outcome) => {
+    if (outcome === "win") {
+      clearInterval(timer);
+      console.log(`GAME OVER`, timeSpan.textContent);
+    } else {
+      clearInterval(timer);
+      document.getElementById("go-container").style.display = "block";
+    }
+  };
 
   const incrementCount = () => {
-    if (seconds === 59) {
-      // Turn 60 minutes to 1 hour
-      if (minutes === 59) {
-        hours += 1;
-        minutes = 0;
-        seconds = 0;
-      } else {
-        // Turn 60 seconds to minutes
-        minutes += 1;
-        seconds = 0;
-      }
+    // Game over in 30 minutes
+    if (totalSeconds === 1800) {
+      gameOver("lose");
     } else {
-      seconds += 1;
+      totalSeconds += 1;
     }
 
-    // Time between 0 and 9 has a leading zero
-    let secs = seconds < 10 ? "0" + seconds.toString() : seconds;
-    let mins = minutes < 10 ? "0" + minutes.toString() : minutes;
-    let hrs = hours < 10 ? "0" + hours.toString() : hours;
+    // total seconds gets converted to time string 00:00:00
+    let timeStr = new Date(totalSeconds * 1000).toISOString().substr(11, 8);
 
-    timeSpan.textContent =
-      hrs > 0 ? `${hrs}:${mins}:${secs}` : `${mins}:${secs}`;
+    // Cut string off on the first colon so time format is 00:00 not 00:00:00
+    timeStr = timeStr.substring(timeStr.indexOf(":") + 1);
+
+    timeSpan.textContent = timeStr;
   };
 
   let timer;
@@ -83,7 +90,6 @@ document.addEventListener("turbolinks:load", () => {
       y <= waldo.yMax
     ) {
       waldoP1.style.backgroundColor = "green";
-      console.log("FOUND WALDO");
     } else if (
       x >= wizard.xMin &&
       x <= wizard.xMax &&
@@ -91,7 +97,6 @@ document.addEventListener("turbolinks:load", () => {
       y <= wizard.yMax
     ) {
       wizardP1.style.backgroundColor = "green";
-      console.log("FOUND WIZARD WHITE BEARD");
     } else if (
       x >= odlaw.xMin &&
       x <= odlaw.xMax &&
@@ -99,7 +104,6 @@ document.addEventListener("turbolinks:load", () => {
       y <= odlaw.yMax
     ) {
       odlawP1.style.backgroundColor = "green";
-      console.log("FOUND ODLAW");
     } else if (
       x >= wenda.xMin &&
       x <= wenda.xMax &&
@@ -107,7 +111,6 @@ document.addEventListener("turbolinks:load", () => {
       y <= wenda.yMax
     ) {
       wendaP1.style.backgroundColor = "green";
-      console.log("FOUND WENDA");
     }
   };
 
@@ -115,14 +118,13 @@ document.addEventListener("turbolinks:load", () => {
     let x = e.offsetX;
     let y = e.offsetY;
 
+    // Detect which puzzle is being played
     if (puzzleTitle === "Waldo at the beach") {
       detectHit(puzzleCoords.puzzle1, x, y);
     } else if (puzzleTitle === "Waldo goes skiing") {
       detectHit(puzzleCoords.puzzle2, x, y);
     } else if (puzzleTitle === "Waldo at the Olympics") {
       detectHit(puzzleCoords.puzzle3, x, y);
-    } else {
-      console.log("ERROR");
     }
 
     // End game and timer when all character are found
@@ -132,13 +134,7 @@ document.addEventListener("turbolinks:load", () => {
       wendaP1.style.backgroundColor === "green" &&
       odlawP1.style.backgroundColor === "green"
     ) {
-      clearInterval(timer);
-      let secs = seconds < 10 ? "0" + seconds.toString() : seconds;
-      let mins = minutes < 10 ? "0" + minutes.toString() : minutes;
-      let hrs = hours < 10 ? "0" + hours.toString() : hours;
-
-      let score = `${hrs}:${mins}:${secs}`;
-      console.log(`GAME OVER SCORE: ${score}`);
+      gameOver("win");
     }
 
     return [x, y];
