@@ -18,10 +18,6 @@ document.addEventListener("turbolinks:load", () => {
 
   let totalSeconds = 0;
 
-  document.getElementById("test").addEventListener("click", () => {
-    totalSeconds = 1795;
-  });
-
   const gameOver = (outcome) => {
     if (outcome === "win") {
       clearInterval(timer);

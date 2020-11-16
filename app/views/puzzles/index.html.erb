@@ -1,11 +1,15 @@
-<h1>PUZZLES INDEX</h1>
+<div id="pi-parent-div">
+  <h1 id="pi-title">Where's Waldo?</h1>
 
-<ul>
-  <% @puzzles.each do |puzzle| %>
-    <li>
-      <a href=<%= "puzzles/#{puzzle.id}" %> data-turbolinks="false">
-        <%= puzzle.title %>
+  <div id="puzzles-index-container">
+    <% @puzzles.each do |puzzle| %>
+      <a href=<%= "puzzles/#{puzzle.id}" %> data-turbolinks="false" class="puzzle-index-link">
+        <% html_id = "puzzle-" + puzzle.title.downcase.split(" ").join("-") %>
+
+        <div id=<%= html_id %> class="background-image">
+          <h3 class="index-puzzle-title"><%= puzzle.title %></h3>
+        </div>
       </a> 
-    </li>
-  <% end %>
-</ul>
+    <% end %>
+  </div>
+</div>
