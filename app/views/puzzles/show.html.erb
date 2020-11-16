@@ -80,7 +80,7 @@
       <% end %>
     </div>
 
-    <%= image_tag ("/assets/#{@puzzle.image}"), id: "puzzle-img", class: "puzzle-img", width: @puzzle.width, height: @puzzle.height %>
+    <%= image_tag (asset_path @puzzle.image), id: "puzzle-img", class: "puzzle-img", width: @puzzle.width, height: @puzzle.height %>
   </div>
 
 </div>
