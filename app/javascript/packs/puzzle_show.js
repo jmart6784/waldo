@@ -16,6 +16,8 @@ document.addEventListener("turbolinks:load", () => {
 
   let timeSpan = document.getElementById("time-span");
 
+  let scoreInput = document.getElementById("score-form-input");
+
   let totalSeconds = 0;
 
   const gameOver = (outcome) => {
@@ -23,7 +25,6 @@ document.addEventListener("turbolinks:load", () => {
       clearInterval(timer);
       document.getElementById("score-form-outer").style.display = "block";
       document.getElementById("score-form-field").value = totalSeconds;
-      console.log(`GAME OVER`, timeSpan.textContent, totalSeconds);
     } else {
       clearInterval(timer);
       document.getElementById("go-container").style.display = "block";

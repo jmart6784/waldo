@@ -21,7 +21,7 @@
       <div id="score-form-div">
         <h1 id="score-form-title">Enter your name:</h1>
         <%= form_with model: @score, local: true do |f| %>
-          <%= f.text_field :name, id: "score-form-input" %>
+          <%= f.text_field :name, id: "score-form-input", required: true, minlength: 1 , maxlength: 10 %>
           <%= f.hidden_field :score, value: 1800, id: "score-form-field" %>
           <%= f.hidden_field :puzzle_id, value: @puzzle.id %>
           <br />
