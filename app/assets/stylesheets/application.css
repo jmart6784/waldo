@@ -162,6 +162,7 @@ h5,
 h6,
 p,
 a,
-li {
+li,
+div {
   color: white;
 }

@@ -1,63 +1,86 @@
-<%= javascript_pack_tag "puzzle_show" %>
+<div id="ps-index-container">
 
-<div id="start-game-div">
-  <div id="start-div">
-    <h1 id="puzzle-show-start-title">Find all the characters as fast as you can!</h1>
-    <button id="puzzle-start-btn" class="popup-btn">Start</button>
-  </div>
-</div>
+  <%= javascript_pack_tag "puzzle_show" %>
 
-<div id="go-container">
-  <div id="gameover-loss">
-    <h1 id="go-title-loss">Game over times up!</h1>
-    <button id="play-again" class="popup-btn">Play again!</button>
-  </div>
-</div>
-
-<div id="score-form-outer">
-  <div id="score-form-container">
-    <div id="score-form-div">
-      <h1>Enter your name:</h1>
-      <%= form_with model: @score, local: true do |f| %>
-        <%= f.text_field :name %>
-        <%= f.hidden_field :score, value: 1800, id: "score-form-field" %>
-        <%= f.hidden_field :puzzle_id, value: @puzzle.id %>
-
-        <%= f.submit "Submit" %>
-      <% end %>
+  <div id="start-game-div">
+    <div id="start-div">
+      <h1 id="puzzle-show-start-title">Find all the characters as fast as you can!</h1>
+      <button id="puzzle-start-btn" class="popup-btn">Start</button>
     </div>
   </div>
-</div>
 
-<h2 id="puzzle-show-title"><%= @puzzle.title %></h2>
-
-<a href="/" data-turbolinks="false">HOME</a>
-<br />
-<div class="img-container">
-  <div class="game-sidebar">
-    <h2 id="puzzle-show-timer">Score: <span id="time-span">00:00</span></h2>
-    <h3>Find these characters</h3>
-
-    <ul>
-      <% @characters.each do |char| %>
-        <li id=<%= "#{char === "Wizard Whitebeard" ? "wizard" : char.downcase}-puzzle" %>><%= char %></li>
-      <% end %>
-    </ul>
-
-    <% unless @scores.length === 0 %>
-      <div id="scores-container">
-        <h3>Scores:</h3>
-        <div id="scores-list">
-          <ul>
-            <% @scores.each do |score| %>
-              <% score_time = Time.at(score.score).utc.strftime("%M:%S") %>
-              <li class="score-item"><%= "#{score.name}:  #{score_time}" %></li>
-            <% end %>
-          </ul>
-        </div>
-      </div>      
-    <% end %>
+  <div id="go-container">
+    <div id="gameover-loss">
+      <h1 id="go-title-loss">Game over times up!</h1>
+      <button id="play-again" class="popup-btn">Play again!</button>
+    </div>
   </div>
 
-  <%= image_tag ("/assets/#{@puzzle.image}"), id: "puzzle-img", class: "puzzle-img", width: @puzzle.width, height: @puzzle.height %>
+  <div id="score-form-outer">
+    <div id="score-form-container">
+      <div id="score-form-div">
+        <h1 id="score-form-title">Enter your name:</h1>
+        <%= form_with model: @score, local: true do |f| %>
+          <%= f.text_field :name, id: "score-form-input" %>
+          <%= f.hidden_field :score, value: 1800, id: "score-form-field" %>
+          <%= f.hidden_field :puzzle_id, value: @puzzle.id %>
+          <br />
+          <%= f.submit "Submit", id: "score-form-submit" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="img-container">
+    <div class="game-sidebar">
+      <h2 id="puzzle-show-title"><%= @puzzle.title %></h2>
+      <a href="/" data-turbolinks="false" id="puzzle-show-back">Back</a>
+
+      <h2 id="puzzle-show-timer">Score: <span id="time-span">00:00</span></h2>
+      <h3 id="ps-char-title">Find these characters</h3>
+
+      <div id="all-characters">
+        <% @characters.each do |char| %>
+          <% extension = char === "Waldo" || char === "Wizard Whitebeard" ? ".png" : ".jpg" %>
+
+          <% ns_char = char === "Wizard Whitebeard" ? "WizardWhitebeard" : char %>
+
+          <div id="character-pic" style="background-image: url(<%= image_url(ns_char + extension) %>)" class="background-image">
+
+            <div id=<%= "#{char === "Wizard Whitebeard" ? "wizard" : char.downcase}-puzzle" %> class="char-pic-label"><%= char %></div>
+            
+          </div>
+        <% end %>
+      </div>
+
+      <% unless @scores.length === 0 %>
+        <div id="scores-container">
+          <h3 id="scores-title">Leaderboard</h3>
+
+          <div class="grid-3-column score-labels">
+            <p class="score-label-item"></p>
+            <p class="score-label-item">Name</p>        
+            <p class="score-label-item">Time</p>
+          </div>
+
+          <div id="scores-list">
+
+            <% place = 0 %>
+            <% @scores.each do |score| %>
+              <div class="grid-3-column">
+                <p class="score-item"><%= place += 1 %>.</p>
+                <% score_time = Time.at(score.score).utc.strftime("%M:%S") %>
+                <p class="score-item score-name"><%= score.name %></p>
+                <p class="score-item"><%= score_time %></p>
+              </div>
+            <% end %>
+
+          </div>
+        </div>      
+      <% end %>
+    </div>
+
+    <%= image_tag ("/assets/#{@puzzle.image}"), id: "puzzle-img", class: "puzzle-img", width: @puzzle.width, height: @puzzle.height %>
+  </div>
+
 </div>
