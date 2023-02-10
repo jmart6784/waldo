@@ -1,5 +1,13 @@
 class PuzzlesController < ApplicationController
   def index
+    if Puzzle.all.count === 0
+      puzzle1 = Puzzle.create(title: "Waldo at the beach", characters: "Waldo WizardWhitebeard Wenda Odlaw", image: "img1.jpeg", height: "819", width: "1456")
+
+      puzzle2 = Puzzle.create(title: "Waldo goes skiing", characters: "Waldo WizardWhitebeard Wenda Odlaw", image: "img2.jpg", height: "819", width: "1456")
+
+      puzzle1 = Puzzle.create(title: "Waldo at the Olympics", characters: "Waldo WizardWhitebeard Wenda Odlaw", image: "img3.jpg", height: "819", width: "1456")
+    end
+
     @puzzles = Puzzle.all
   end
 

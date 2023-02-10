@@ -12,6 +12,9 @@ ENV RAILS_ENV="production" \
     BUNDLE_PATH="vendor/bundle" \
     BUNDLE_WITHOUT="development:test"
 
+ARG RAILS_MASTER_KEY
+ENV RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
+
 # Update gems and preinstall the desired version of bundler
 ARG BUNDLER_VERSION=2.1.4
 RUN gem update --system --no-document && \
